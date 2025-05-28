@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rs.ecom.model.Category;
+import com.rs.ecom.payload.CategoryDTO;
 import com.rs.ecom.payload.CategoryResponse;
 import com.rs.ecom.services.CategoryService;
 
@@ -33,10 +34,9 @@ public class CategoryController {
 	}
 
 	@PostMapping("/api/public/categories")
-	public String createCategory(@Valid @RequestBody Category category) {
-		categoryService.createCategory(category);
-		return "Category added Successfully";
-
+	public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+		CategoryDTO savedCategoryDTO =  categoryService.createCategory(categoryDTO);
+		return new ResponseEntity<>(savedCategoryDTO,HttpStatus.CREATED);
 	}
 
 	@DeleteMapping("/api/admin/categories/{categoryId}")
